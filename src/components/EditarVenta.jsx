@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { api } from '../api';
 
 function EditarVenta({ venta, onUpdate, onCancel }) {
     const [formData, setFormData] = useState({
@@ -14,11 +14,11 @@ function EditarVenta({ venta, onUpdate, onCancel }) {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        axios.get('http://localhost:3000/estudiantes')
+        api.get('/estudiantes')
             .then(res => setEstudiantes(res.data))
             .catch(err => console.error('Error al cargar estudiantes:', err));
 
-        axios.get('http://localhost:3000/productos')
+        api.get('/productos')
             .then(res => setProductos(res.data))
             .catch(err => console.error('Error al cargar productos:', err));
     }, []);
@@ -34,9 +34,8 @@ function EditarVenta({ venta, onUpdate, onCancel }) {
         e.preventDefault();
         setLoading(true);
 
-        axios.put(`http://localhost:3000/ventas/${venta.id}`, formData)
+        api.put(`/ventas/${venta.id}`, formData)
             .then(() => {
-                // Se ejecuta la actualización de inmediato y se cierra el modal sin mostrar alertas
                 if (onUpdate) {
                     onUpdate();
                 }
@@ -161,13 +160,13 @@ const styles = {
     },
     title: {
         margin: 0,
-        color: '#ffee00', // Título en AMARILLO
+        color: '#ffee00',
         fontSize: '1.25rem',
         fontWeight: '700'
     },
     subtitle: {
         margin: '2px 0 0 0',
-        color: '#00d2d3', // Subtítulo en CIEN/TURQUESA
+        color: '#00d2d3',
         fontSize: '0.8rem'
     },
     form: {
@@ -197,7 +196,7 @@ const styles = {
         fontSize: '0.9rem',
         outline: 'none',
         backgroundColor: '#252932',
-        color: '#ffee00', // Texto en AMARILLO
+        color: '#ffee00',
         fontWeight: '500'
     },
     selectInput: {
@@ -207,7 +206,7 @@ const styles = {
         fontSize: '0.9rem',
         outline: 'none',
         backgroundColor: '#252932',
-        color: '#ffee00', // Texto desplegable en AMARILLO
+        color: '#ffee00',
         fontWeight: '500'
     },
     optionItem: {
@@ -221,7 +220,7 @@ const styles = {
         marginTop: '10px'
     },
     btnPrimary: {
-        backgroundColor: '#ffee00', // Botón principal en AMARILLO
+        backgroundColor: '#ffee00',
         color: '#1b1d22',
         border: 'none',
         padding: '10px 18px',

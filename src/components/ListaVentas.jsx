@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { api } from '../api';
 import EditarVenta from './EditarVenta';
 
 function ListaVentas() {
@@ -8,7 +8,7 @@ function ListaVentas() {
     const [ventaSeleccionada, setVentaSeleccionada] = useState(null);
 
     const cargarVentas = () => {
-        axios.get('http://localhost:3000/ventas')
+        api.get('/ventas')
             .then(res => setVentas(res.data))
             .catch(err => console.error('Error al obtener ventas:', err))
             .finally(() => setCargando(false));
@@ -22,9 +22,8 @@ function ListaVentas() {
         return () => clearInterval(interval);
     }, []);
 
-    // Eliminación directa e inmediata sin alertas ni confirmaciones
     const eliminarVenta = (id) => {
-        axios.delete(`http://localhost:3000/ventas/${id}`)
+        api.delete(`/ventas/${id}`)
             .then(() => cargarVentas())
             .catch(err => console.error('Error al eliminar venta:', err));
     };

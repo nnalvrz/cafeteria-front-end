@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { api } from '../api';
 
 function FormularioVenta({ onVentaRegistrada }) {
     const [formData, setFormData] = useState({
@@ -14,11 +14,11 @@ function FormularioVenta({ onVentaRegistrada }) {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        axios.get('http://localhost:3000/estudiantes')
+        api.get('/estudiantes')
             .then(res => setEstudiantes(res.data))
             .catch(err => console.error('Error al cargar estudiantes:', err));
 
-        axios.get('http://localhost:3000/productos')
+        api.get('/productos')
             .then(res => setProductos(res.data))
             .catch(err => console.error('Error al cargar productos:', err));
     }, []);
@@ -34,9 +34,8 @@ function FormularioVenta({ onVentaRegistrada }) {
         e.preventDefault();
         setLoading(true);
 
-        axios.post('http://localhost:3000/ventas', formData)
+        api.post('/ventas', formData)
             .then(res => {
-                // Limpiar formulario
                 setFormData({
                     estudiante_id: '',
                     producto_id: '',
@@ -44,7 +43,6 @@ function FormularioVenta({ onVentaRegistrada }) {
                     fecha: new Date().toISOString().split('T')[0]
                 });
 
-                // Actualizar automáticamente la lista sin recargar la página
                 if (onVentaRegistrada) {
                     onVentaRegistrada();
                 }
