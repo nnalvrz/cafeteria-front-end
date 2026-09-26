@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// Toma la variable de entorno configurada en Vercel o usa localhost si estás probando en tu máquina
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+// Si existe la variable de entorno la usa, de lo contrario apunta directamente al backend de Render
+const API_URL = import.meta.env.VITE_API_URL || 'https://cafeteria-back-end.onrender.com';
 
 export const api = axios.create({
   baseURL: API_URL
